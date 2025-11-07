@@ -326,7 +326,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyCUDBRe1uTw1o_me-JaYvzhDGP62m4fQz4",
       authDomain: "japon-2026.firebaseapp.com",
-      databaseURL: "https://japon-2026-default-rtdb.europe-west1.firebasedatabase.app", // vérifie dans la console Firebase si besoin
+      databaseURL: "https://japon-2026-default-rtdb.europe-west1.firebasedatabase.app", // à vérifier dans la console Realtime Database
       projectId: "japon-2026",
       storageBucket: "japon-2026.firebasestorage.app",
       messagingSenderId: "838871791341",
@@ -450,7 +450,6 @@
               </tr>
             </thead>
             <tbody id="listeBody-${level}">
-              <!-- lignes générées en JS -->
             </tbody>
           </table>
         </div>
@@ -568,10 +567,11 @@
       saveListToStorage(level);
     }
 
+    // LECTURE depuis Firebase (version compat => .once('value'))
     async function readStorageRaw(level){
       try{
-        const snap = await getListRef(level).get();
-        if(!snap.exists()) return null;
+        const snap = await getListRef(level).once('value');
+        if (!snap.exists()) return null;
         return snap.val();
       }catch(e){
         console.warn("Erreur lecture Firebase niveau", level, e);

@@ -2,206 +2,768 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vocabulaire Japonais — Entraînement</title>
+  <title>Vocabulaire Japonais — Niveaux</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --bg1: #f7f7fb; --bg2: #f0f7ff;
-      --torii: #e1144d; --torii-dark: #be123c;
-      --accent: #6d28d9; --accent-dark: #5b21b6;
-      --paper: #fffdf7;
-      --ink: #0f172a; --muted: #64748b;
+    :root{
+      --bg1:#f7f7fb; --bg2:#f0f7ff; --card:#ffffff; --ink:#0f172a; --muted:#64748b;
+      --torii:#e11d48; --torii-dark:#be123c; --accent:#2563eb; --accent-dark:#1e40af; --paper:#fffdf7;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      color: var(--ink);
-      background: radial-gradient(circle at top right, #bdeafe 0, transparent 55%), linear-gradient(180deg, var(--bg2), var(--bg1));
-      display: flex; justify-content: center; align-items: flex-start;
-      padding: 20px;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top right, #dbeafe 0, transparent 55%),
+        linear-gradient(180deg,var(--bg2),var(--bg1));
+      position:relative;
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
     }
-    h1 {
-      font-size: 2.5rem; font-weight: 800; color: var(--ink);
-      text-align: center; margin-bottom: 0.25em;
+    body::before{
+      content:""; position:fixed; inset:0; opacity:.24; z-index:-1;
+      background:
+        radial-gradient(circle at 0 0, #cbd5f5 22%, transparent 23%),
+        radial-gradient(circle at 0 50%, #b5bfd3 22%, transparent 23%),
+        radial-gradient(circle at 0 100%, #cbd5f5 22%, transparent 23%),
+        radial-gradient(circle at 50% 0, #b5bfd3 22%, transparent 23%),
+        radial-gradient(circle at 50% 50%, #cbd5f5 22%, transparent 23%),
+        radial-gradient(circle at 50% 100%, #b5bfd3 22%, transparent 23%),
+        radial-gradient(circle at 100% 0, #cbd5f5 22%, transparent 23%),
+        radial-gradient(circle at 100% 50%, #b5bfd3 22%, transparent 23%),
+        radial-gradient(circle at 100% 100%, #cbd5f5 22%, transparent 23%);
+      background-size:60px 60px;
+      background-position:0 0,0 30px,0 60px,30px 0,30px 30px,30px 60px,60px 0,60px 30px,60px 60px;
     }
-    h1 span { color: var(--torii-dark); }
-    p { text-align: center; color: var(--muted); margin-bottom: 1em; }
-    button {
-      font-family: inherit; cursor: pointer; border: none;
-      border-radius: 16px; padding: 12px 28px; font-weight: 600; font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+
+    /* Pétales sakura */
+    .petal{
+      position:fixed; top:-20px; width:14px; height:10px;
+      background:radial-gradient(circle at 30% 30%, #ffe4ec 0, #f9a8d4 40%, #ec4899 100%);
+      border-radius:10px 2px 10px 2px;
+      opacity:.7;
+      box-shadow:0 0 6px rgba(248,113,170,.6);
+      animation:fall linear infinite;
+      transform:rotate(15deg);
+      pointer-events:none;
     }
-    button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .red { background: var(--torii); color: white; }
-    .purple { background: var(--accent); color: white; }
-    .add { background: white; color: var(--torii-dark); border: 2px solid var(--torii-dark); margin-top: 12px; }
-    .container {
-      background: var(--paper);
-      border-radius: 20px; padding: 30px; width: 90%; max-width: 800px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-      text-align: center; position: relative;
+    .petal::after{
+      content:""; position:absolute; width:14px; height:10px;
+      background:radial-gradient(circle at 30% 30%, #ffe4ec 0, #f9a8d4 40%, #ec4899 100%);
+      border-radius:2px 10px 10px 10px; left:-4px; top:3px; opacity:.7;
     }
-    .level-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 12px; }
-    table {
-      border-collapse: collapse; width: 100%; margin-top: 15px;
+    @keyframes fall{
+      0%{transform:translateY(-30px) rotate(0deg)}
+      100%{transform:translateY(110vh) rotate(360deg)}
     }
-    th, td {
-      border: 1px solid #ddd; padding: 8px; text-align: center;
+
+    .wrap{width:min(1000px,96vw)}
+    .shell{
+      background:var(--card); border-radius:22px;
+      box-shadow:0 18px 60px rgba(15,23,42,.08); overflow:hidden;
     }
-    input[type="text"] {
-      width: 90%; padding: 6px; border: 1px solid #ccc; border-radius: 8px;
-      font-family: inherit;
+    .header{
+      padding:44px 26px 22px; text-align:center;
+      background:linear-gradient(180deg,#fff,#fafaff);
+      border-bottom:1px solid #eef2ff;
+    }
+    .title{
+      margin:0; line-height:1.05; font-weight:800;
+      font-size:clamp(28px,4vw,40px); letter-spacing:.3px;
+      background:linear-gradient(90deg,#111827 10%, #334155 90%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .subtitle{
+      margin:6px 0 0; color:#64748b; font-size:14px;
+      letter-spacing:.5px; font-family:"Noto Sans JP"; font-weight:700;
+    }
+
+    .content{padding:26px}
+    .card{
+      background:var(--paper); border:1px solid #f2eadf;
+      border-radius:18px; padding:24px;
+      box-shadow:0 8px 30px rgba(0,0,0,.06);
+      margin-bottom:16px;
+    }
+    .row{
+      display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+      align-items:center;
+    }
+
+    /* Liste verticale des niveaux */
+    .levels-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-start;
+    }
+    .level-row{
+      display:flex;
+      gap:14px;
+      justify-content:center;
+    }
+
+    .btn{
+      appearance:none; border:0; padding:12px 18px; border-radius:12px; cursor:pointer;
+      font-weight:700; letter-spacing:.3px; color:#fff;
+      background:var(--torii); box-shadow:0 6px 16px rgba(225,29,72,.25);
+      transition:.18s transform,.18s box-shadow,.18s background;
+      font-size:14px;
+    }
+    .btn:hover{
+      transform:translateY(-1px); box-shadow:0 10px 22px rgba(225,29,72,.35);
+      background:var(--torii-dark);
+    }
+    .btn:active{
+      transform:translateY(1px); box-shadow:0 3px 10px rgba(225,29,72,.24);
+    }
+    .btn.accent{
+      background:var(--accent); box-shadow:0 6px 16px rgba(37,99,235,.25);
+    }
+    .btn.accent:hover{
+      background:var(--accent-dark); box-shadow:0 10px 22px rgba(37,99,235,.35);
+    }
+    .btn.ghost{
+      background:rgba(255,255,255,.9); color:var(--torii);
+      box-shadow:0 3px 10px rgba(148,163,184,.3);
+      border:1px solid rgba(148,163,184,.4);
+    }
+    .btn.small{padding:8px 12px; font-size:12px; border-radius:999px;}
+
+    .hidden{display:none}
+
+    .section-title{
+      margin-top:0; margin-bottom:14px;
+      font-size:18px; font-weight:700; letter-spacing:.4px;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .section-sub{
+      margin:0 0 16px; font-size:13px; color:var(--muted); text-align:center;
+    }
+
+    .table-wrapper{
+      border-radius:14px; overflow:auto; border:1px solid #e5e7eb; background:#fff;
+      max-height:420px;
+    }
+    table{
+      width:100%; border-collapse:collapse; font-size:14px;
+      min-width:320px;
+    }
+    thead{
+      background:#f9fafb;
+      position:sticky; top:0; z-index:1;
+    }
+    th,td{
+      padding:8px 10px; border-bottom:1px solid #e5e7eb; text-align:left;
+    }
+    th{
+      font-weight:600; color:#4b5563; font-size:13px;
+      background:#f3f4f6;
+    }
+    tr:nth-child(even) td{background:#fcfcff;}
+
+    .cell-input{
+      width:100%; border:1px solid #e5e7eb; border-radius:8px;
+      padding:6px 8px; font-size:13px;
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:#f9fafb; outline:none;
+      transition:border-color .15s, box-shadow .15s, background .15s;
+    }
+    .cell-input.jp{
+      font-family:"Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
+    }
+    .cell-input:focus{
+      border-color:var(--accent); background:#fff;
+      box-shadow:0 0 0 1px rgba(37,99,235,.25);
+    }
+
+    .toolbar{
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between;
+      align-items:center; margin-bottom:14px;
+    }
+    .toolbar-left,.toolbar-right{
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    }
+    label{font-size:13px; color:#4b5563;}
+    select{
+      border-radius:999px; border:1px solid #cbd5f5; padding:6px 10px;
+      font-size:13px; background:#fff; outline:none;
+    }
+
+    .word-card{
+      margin:8px auto 16px; padding:14px 18px;
+      background:linear-gradient(135deg,#eff6ff,#fee2e2);
+      border-radius:14px; border:1px solid #e0e7ff;
+      text-align:center;
+    }
+    .word-label{
+      font-size:12px; text-transform:uppercase; letter-spacing:.15em;
+      color:#6b7280; margin:0 0 6px;
+    }
+    .word-text{
+      margin:0; font-size:20px; font-weight:700;
+    }
+    .answer-box{margin:10px 0 8px;}
+    .answerInput{
+      width:100%; min-height:46px; padding:8px 10px;
+      border-radius:10px; border:1px solid #d1d5db; font-size:16px;
+      font-family:"Noto Sans JP","Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+      outline:none; resize:vertical;
+    }
+    .answerInput:focus{
+      border-color:var(--accent); box-shadow:0 0 0 1px rgba(37,99,235,.25);
+      background:#fff;
+    }
+    .resultArea{
+      min-height:22px; font-size:14px; margin-top:6px; text-align:center;
+    }
+    .resultArea.good{color:#16a34a;}
+    .resultArea.bad{color:#dc2626;}
+
+    .keyboard-container{
+      margin-top:18px; border-radius:16px;
+      background:#f9fafb; border:1px solid #e5e7eb;
+      padding:10px 10px 12px;
+    }
+    .keyboard-tabs{
+      display:flex; gap:8px; margin-bottom:10px; justify-content:center;
+    }
+    .kbd-tab{
+      border-radius:999px; border:1px solid #cbd5f5;
+      background:#e5edff; font-size:12px; padding:5px 12px;
+      cursor:pointer; font-weight:600;
+    }
+    .kbd-tab.active{
+      background:#2563eb; color:#fff; border-color:#1d4ed8;
+    }
+    .keyboard-keys{
+      display:flex; flex-wrap:wrap; gap:4px; justify-content:center;
+      max-height:180px; overflow:auto;
+    }
+    .kbd-key{
+      min-width:28px; padding:6px 6px; border-radius:6px; border:0;
+      background:#fff; box-shadow:0 1px 2px rgba(148,163,184,.6);
+      cursor:pointer; font-size:16px;
+      font-family:"Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
+      transition:transform .12s, box-shadow .12s, background .12s;
+    }
+    .kbd-key:hover{
+      transform:translateY(-1px);
+      box-shadow:0 3px 6px rgba(148,163,184,.6);
+      background:#f3f4ff;
+    }
+    .kbd-key:active{
+      transform:translateY(0);
+      box-shadow:0 0 0 rgba(148,163,184,.4);
+    }
+
+    .info-text{
+      font-size:12px; color:var(--muted); margin-top:4px; text-align:center;
+    }
+    .back-row{
+      margin-top:18px; justify-content:flex-end;
+    }
+
+    .level-section{}
+    @media (max-width:640px){
+      .content{padding:18px}
+      .card{padding:18px}
+      .toolbar{flex-direction:column; align-items:flex-start;}
+      .toolbar-right{justify-content:flex-start;}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1><span>Vocabulaire Japonais</span> — Niveaux</h1>
-    <p>Crée plusieurs listes de vocabulaire puis entraîne-toi avec les niveaux correspondants.</p>
 
-    <div id="levelContainer"></div>
+  <!-- Pétales flottantes -->
+  <div class="petal" style="left:5%; animation-duration:12s; animation-delay:-1s;"></div>
+  <div class="petal" style="left:18%; animation-duration:10s; animation-delay:-4s;"></div>
+  <div class="petal" style="left:28%; animation-duration:14s; animation-delay:-2.2s;"></div>
+  <div class="petal" style="left:42%; animation-duration:9s; animation-delay:-3.1s;"></div>
+  <div class="petal" style="left:57%; animation-duration:11s; animation-delay:-0.5s;"></div>
+  <div class="petal" style="left:71%; animation-duration:13s; animation-delay:-2.7s;"></div>
+  <div class="petal" style="left:83%; animation-duration:9.5s; animation-delay:-1.4s;"></div>
+  <div class="petal" style="left:93%; animation-duration:12.5s; animation-delay:-3.8s;"></div>
 
-    <button class="add" onclick="ajouterNiveau()">+ Ajouter un niveau</button>
+  <div class="wrap">
+    <div class="shell">
+      <header class="header">
+        <h1 class="title">Vocabulaire Japonais — Niveaux</h1>
+        <p class="subtitle">日本語 練習 ・ Nihongo Renshū</p>
+      </header>
+
+      <main class="content">
+        <!-- Accueil -->
+        <section id="home" class="card">
+          <p class="section-title">Bienvenue 👋</p>
+          <p class="section-sub">
+            Crée plusieurs listes de vocabulaire (Liste 1, Liste 2, …) puis entraîne-toi avec les niveaux correspondants.
+          </p>
+          <div id="levelsButtons" class="levels-list" style="margin-top:10px; margin-bottom:6px;">
+            <!-- Boutons générés en JS -->
+          </div>
+          <div class="row back-row" style="justify-content:center; margin-top:10px;">
+            <button class="btn ghost small" onclick="addLevel()">Ajouter un niveau</button>
+          </div>
+        </section>
+
+        <!-- Sections Niveau n / Liste n -->
+        <div id="levelsSections"></div>
+      </main>
+    </div>
   </div>
 
-  <!-- Firebase -->
+  <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
-    // === Configuration Firebase ===
+    // ====== INITIALISATION FIREBASE (avec ta config) ======
     const firebaseConfig = {
       apiKey: "AIzaSyCUDBRe1uTw1o_me-JaYvzhDGP62m4fQz4",
       authDomain: "japon-2026.firebaseapp.com",
-      databaseURL: "https://japon-2026-default-rtdb.europe-west1.firebasedatabase.app",
+      databaseURL: "https://japon-2026-default-rtdb.europe-west1.firebasedatabase.app", // vérifie dans la console Firebase si besoin
       projectId: "japon-2026",
       storageBucket: "japon-2026.firebasestorage.app",
       messagingSenderId: "838871791341",
       appId: "1:838871791341:web:758bb567d9018146543ee4",
       measurementId: "G-9490H8V2X4"
     };
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    function getListRef(level){ return db.ref("lists/" + level); }
 
-    // === Interface ===
-    let niveauCount = 1;
-    const levelContainer = document.getElementById('levelContainer');
+    // ====== MULTI-NIVEAUX ======
+    let maxLevel = 1;
+    const levelsState = {}; // { level: {rowCount, keyboardMode, currentEntry} }
 
-    function renderNiveaux() {
-      levelContainer.innerHTML = '';
-      for (let i = 1; i <= niveauCount; i++) {
-        const div = document.createElement('div');
-        div.className = 'level-group';
-        div.innerHTML = `
-          <button class="red" onclick="ouvrirNiveau(${i})">Niveau ${i}</button>
-          <button class="purple" onclick="ouvrirListe(${i})">Liste ${i}</button>
-        `;
-        levelContainer.appendChild(div);
+    function ensureLevelState(level){
+      if(!levelsState[level]){
+        levelsState[level] = {
+          rowCount: 10,
+          keyboardMode: "hiragana",
+          currentEntry: null
+        };
+      }
+      return levelsState[level];
+    }
+
+    function hideAllLevelSections(){
+      document.querySelectorAll(".level-section").forEach(sec => sec.classList.add("hidden"));
+    }
+
+    function showHome(){
+      hideAllLevelSections();
+      document.getElementById("home").classList.remove("hidden");
+    }
+
+    function showLevelSection(level, type){
+      hideAllLevelSections();
+      document.getElementById("home").classList.add("hidden");
+      const id = type + "-" + level;
+      const sec = document.getElementById(id);
+      if(sec) sec.classList.remove("hidden");
+      if(type === "liste"){
+        loadListFromStorage(level);
       }
     }
 
-    function ajouterNiveau() {
-      niveauCount++;
-      renderNiveaux();
+    // boutons d’accueil
+    function renderHomeButtons(){
+      const container = document.getElementById("levelsButtons");
+      container.innerHTML = "";
+      for(let lvl=1; lvl<=maxLevel; lvl++){
+        const row = document.createElement("div");
+        row.className = "level-row";
+
+        const btnN = document.createElement("button");
+        btnN.className = "btn";
+        btnN.textContent = "Niveau " + lvl;
+        btnN.addEventListener("click", () => showLevelSection(lvl,"niveau"));
+
+        const btnL = document.createElement("button");
+        btnL.className = "btn accent";
+        btnL.textContent = "Liste " + lvl;
+        btnL.addEventListener("click", () => showLevelSection(lvl,"liste"));
+
+        row.appendChild(btnN);
+        row.appendChild(btnL);
+        container.appendChild(row);
+      }
     }
 
-    renderNiveaux();
-
-    // === Liste (tableau) ===
-    function ouvrirListe(n) {
-      const win = window.open('', `_blank`);
-      win.document.write(`
-        <html><head><title>Liste ${n}</title></head>
-        <body style="font-family: Poppins; text-align:center;">
-        <h2>Liste ${n}</h2>
-        <label>Nombre de lignes :
-          <select id="rowCount">
-            <option>10</option><option>20</option><option>30</option>
-            <option>40</option><option>50</option>
-          </select>
-        </label>
-        <button onclick="genererTableau()">OK</button>
-        <div id="tableContainer"></div>
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"><\/script>
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"><\/script>
-        <script>
-          const firebaseConfig = ${JSON.stringify(firebaseConfig)};
-          const app = firebase.initializeApp(firebaseConfig);
-          const db = firebase.database();
-          const ref = db.ref('listes/liste${n}');
-          let data = [];
-
-          ref.on('value', snap => {
-            data = snap.val() || [];
-            genererTableau();
-          });
-
-          function genererTableau(){
-            const nb = parseInt(document.getElementById('rowCount').value);
-            let html = '<table><tr><th>Français</th><th>Japonais</th></tr>';
-            for(let i=0;i<nb;i++){
-              const f = data[i]?.fr || '';
-              const j = data[i]?.jp || '';
-              html += '<tr><td><input type="text" value="'+f+'" onchange="save('+i+', this.value, 0)"></td>'+
-                      '<td><input type="text" value="'+j+'" onchange="save('+i+', this.value, 1)"></td></tr>';
-            }
-            html += '</table>';
-            document.getElementById('tableContainer').innerHTML = html;
-          }
-
-          function save(i, val, col){
-            if(!data[i]) data[i] = {fr:'', jp:''};
-            if(col==0) data[i].fr = val; else data[i].jp = val;
-            ref.set(data);
-          }
-        <\/script>
-        </body></html>
-      `);
+    function addLevel(){
+      maxLevel++;
+      initLevel(maxLevel);
+      renderHomeButtons();
     }
 
-    // === Niveau (test) ===
-    function ouvrirNiveau(n) {
-      const win = window.open('', `_blank`);
-      win.document.write(`
-        <html><head><title>Niveau ${n}</title></head>
-        <body style="font-family:Poppins;text-align:center;">
-        <h2>Niveau ${n}</h2>
-        <button onclick="go()">GO</button>
-        <input id="answer" placeholder="Écris ici..." style="margin:10px;padding:8px;border-radius:8px;">
-        <button onclick="verif()">Vérifier</button>
-        <div id="result"></div>
-
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"><\/script>
-        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"><\/script>
-        <script>
-          const firebaseConfig = ${JSON.stringify(firebaseConfig)};
-          const app = firebase.initializeApp(firebaseConfig);
-          const db = firebase.database();
-          const ref = db.ref('listes/liste${n}');
-          let mots = [];
-          let motActuel = null;
-
-          ref.on('value', snap => { mots = snap.val() || []; });
-
-          function go(){
-            if(mots.length===0) return alert('Aucun mot disponible !');
-            motActuel = mots[Math.floor(Math.random()*mots.length)];
-            document.getElementById('result').innerHTML = '<h3>'+motActuel.fr+'</h3>';
-          }
-
-          function verif(){
-            const rep = document.getElementById('answer').value.trim();
-            const corr = motActuel?.jp || '';
-            const res = document.getElementById('result');
-            if(rep === corr) res.innerHTML = '<p style="color:green;">✅ Correct ! ('+corr+')</p>';
-            else res.innerHTML = '<p style="color:red;">❌ Faux. Réponse : '+corr+'</p>';
-          }
-        <\/script>
-        </body></html>
-      `);
+    function initLevel(level){
+      ensureLevelState(level);
+      createListeSection(level);
+      createNiveauSection(level);
+      loadListFromStorage(level);
+      renderKeyboard(level);
     }
+
+    // ====== CREATION SECTIONS ======
+    function createListeSection(level){
+      const holder = document.getElementById("levelsSections");
+      const section = document.createElement("section");
+      section.id = "liste-" + level;
+      section.className = "card hidden level-section liste-section";
+      section.dataset.level = level;
+
+      section.innerHTML = `
+        <p class="section-title">Liste ${level} – Vocabulaire</p>
+        <p class="section-sub">
+          Colonne 1 : mot en français. Colonne 2 : traduction en japonais (hiragana, katakana ou kanji).
+        </p>
+
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <label for="rowsSelect-${level}">Nombre de lignes :</label>
+            <select id="rowsSelect-${level}">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+            </select>
+            <button class="btn small" onclick="applyRowCount(${level})">OK</button>
+          </div>
+          <div class="toolbar-right">
+            <span class="info-text">La liste est partagée pour tout le monde (Liste ${level}).</span>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:50%;">Français</th>
+                <th style="width:50%;">Japonais</th>
+              </tr>
+            </thead>
+            <tbody id="listeBody-${level}">
+              <!-- lignes générées en JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row back-row">
+          <button class="btn ghost small" onclick="showHome()">Retour à l’accueil</button>
+        </div>
+      `;
+      holder.appendChild(section);
+    }
+
+    function createNiveauSection(level){
+      const holder = document.getElementById("levelsSections");
+      const section = document.createElement("section");
+      section.id = "niveau-" + level;
+      section.className = "card hidden level-section niveau-section";
+      section.dataset.level = level;
+
+      section.innerHTML = `
+        <p class="section-title">Niveau ${level} – Entraînement</p>
+        <p class="section-sub">
+          Un mot français est tiré au hasard depuis ta Liste ${level}. Écris la traduction japonaise avec le clavier ci-dessous.
+        </p>
+
+        <div class="row" style="margin-bottom:10px;">
+          <button class="btn" onclick="startRandomWord(${level})">GO</button>
+          <button class="btn accent" onclick="checkAnswer(${level})">Vérifier</button>
+        </div>
+
+        <div class="word-card">
+          <p class="word-label">Mot en français</p>
+          <p class="word-text" id="currentWord-${level}">—</p>
+        </div>
+
+        <div class="answer-box">
+          <textarea class="answerInput" id="answerInput-${level}" placeholder="Écris ici la traduction en japonais..."></textarea>
+          <div class="resultArea" id="resultArea-${level}"></div>
+        </div>
+
+        <div class="keyboard-container">
+          <div class="keyboard-tabs">
+            <button class="kbd-tab active" id="tab-hira-${level}" onclick="setKeyboardMode('hiragana', ${level})">Hiragana</button>
+            <button class="kbd-tab" id="tab-kata-${level}" onclick="setKeyboardMode('katakana', ${level})">Katakana</button>
+          </div>
+          <div class="keyboard-keys" id="keyboardKeys-${level}">
+          </div>
+          <p class="info-text">
+            Clique sur les kana pour les insérer dans la zone de texte.
+          </p>
+        </div>
+
+        <div class="row back-row">
+          <button class="btn ghost small" onclick="showHome()">Retour à l’accueil</button>
+        </div>
+      `;
+      holder.appendChild(section);
+    }
+
+    // ====== LISTES (Firebase) ======
+    function buildTableBody(level, rowCount, existingEntries){
+      const tbody = document.getElementById("listeBody-" + level);
+      if(!tbody) return;
+      tbody.innerHTML = "";
+
+      const state = ensureLevelState(level);
+      state.rowCount = rowCount;
+
+      for(let i=0; i<rowCount; i++){
+        const tr = document.createElement("tr");
+
+        const tdFr = document.createElement("td");
+        const inputFr = document.createElement("input");
+        inputFr.type = "text";
+        inputFr.className = "cell-input";
+        if(existingEntries && existingEntries[i] && existingEntries[i].fr){
+          inputFr.value = existingEntries[i].fr;
+        }
+        inputFr.addEventListener("input", () => saveListToStorage(level));
+        tdFr.appendChild(inputFr);
+
+        const tdJp = document.createElement("td");
+        const inputJp = document.createElement("input");
+        inputJp.type = "text";
+        inputJp.className = "cell-input jp";
+        if(existingEntries && existingEntries[i] && existingEntries[i].jp){
+          inputJp.value = existingEntries[i].jp;
+        }
+        inputJp.addEventListener("input", () => saveListToStorage(level));
+        tdJp.appendChild(inputJp);
+
+        tr.appendChild(tdFr);
+        tr.appendChild(tdJp);
+        tbody.appendChild(tr);
+      }
+    }
+
+    function readEntriesFromDom(level){
+      const tbody = document.getElementById("listeBody-" + level);
+      if(!tbody) return [];
+      const entries = [];
+      tbody.querySelectorAll("tr").forEach(tr=>{
+        const inputs = tr.querySelectorAll("input");
+        const fr = inputs[0]?.value || "";
+        const jp = inputs[1]?.value || "";
+        entries.push({ fr, jp });
+      });
+      return entries;
+    }
+
+    function applyRowCount(level){
+      const select = document.getElementById("rowsSelect-" + level);
+      const newCount = parseInt(select.value, 10) || 10;
+      const existing = readEntriesFromDom(level);
+      buildTableBody(level, newCount, existing);
+      saveListToStorage(level);
+    }
+
+    async function readStorageRaw(level){
+      try{
+        const snap = await getListRef(level).get();
+        if(!snap.exists()) return null;
+        return snap.val();
+      }catch(e){
+        console.warn("Erreur lecture Firebase niveau", level, e);
+        return null;
+      }
+    }
+
+    function saveListToStorage(level){
+      const entries = readEntriesFromDom(level);
+      const state = ensureLevelState(level);
+      const payload = { rows: state.rowCount, entries };
+      getListRef(level).set(payload).catch(e=>{
+        console.warn("Erreur sauvegarde Firebase niveau", level, e);
+      });
+    }
+
+    async function loadListFromStorage(level){
+      const data = await readStorageRaw(level);
+      const state = ensureLevelState(level);
+
+      if(data && Number.isInteger(data.rows)) state.rowCount = data.rows;
+      else state.rowCount = 10;
+
+      const select = document.getElementById("rowsSelect-" + level);
+      if(select) select.value = String(state.rowCount);
+
+      let entries = [];
+      if(data && Array.isArray(data.entries)) entries = data.entries;
+
+      buildTableBody(level, state.rowCount, entries);
+    }
+
+    async function getNonEmptyEntries(level){
+      const data = await readStorageRaw(level);
+      if(!data || !Array.isArray(data.entries)) return [];
+      return data.entries.filter(e => (e.fr && e.fr.trim() !== "") && (e.jp && e.jp.trim() !== ""));
+    }
+
+    // ====== ENTRAÎNEMENT ======
+    async function startRandomWord(level){
+      const list = await getNonEmptyEntries(level);
+      const currentWordEl = document.getElementById("currentWord-" + level);
+      const answerInput = document.getElementById("answerInput-" + level);
+      const resultArea = document.getElementById("resultArea-" + level);
+      const state = ensureLevelState(level);
+
+      if(list.length === 0){
+        if(currentWordEl) currentWordEl.textContent = "Aucun mot disponible. Remplis d’abord la Liste " + level + ".";
+        if(resultArea){
+          resultArea.textContent = "";
+          resultArea.className = "resultArea";
+        }
+        state.currentEntry = null;
+        return;
+      }
+
+      const idx = Math.floor(Math.random() * list.length);
+      state.currentEntry = list[idx];
+
+      if(currentWordEl) currentWordEl.textContent = state.currentEntry.fr;
+      if(answerInput){
+        answerInput.value = "";
+        answerInput.focus();
+      }
+      if(resultArea){
+        resultArea.textContent = "";
+        resultArea.className = "resultArea";
+      }
+    }
+
+    function checkAnswer(level){
+      const resultArea = document.getElementById("resultArea-" + level);
+      const answerInput = document.getElementById("answerInput-" + level);
+      const state = ensureLevelState(level);
+
+      if(!resultArea || !answerInput) return;
+
+      if(!state.currentEntry){
+        resultArea.textContent = "Appuie d’abord sur GO pour tirer un mot.";
+        resultArea.className = "resultArea";
+        return;
+      }
+
+      const user = (answerInput.value || "").trim();
+      const correct = (state.currentEntry.jp || "").trim();
+
+      if(user === ""){
+        resultArea.textContent = "Tu n’as rien écrit. Essaie de proposer une réponse.";
+        resultArea.className = "resultArea bad";
+        return;
+      }
+
+      if(user === correct){
+        resultArea.textContent = "✅ Correct : " + correct;
+        resultArea.className = "resultArea good";
+      }else{
+        resultArea.textContent = "❌ Faux. Ta réponse : \"" + user + "\" — Réponse correcte : \"" + correct + "\"";
+        resultArea.className = "resultArea bad";
+      }
+    }
+
+    // ====== CLAVIER JAPONAIS ======
+    const HIRAGANA_KEYS = [
+      "あ","い","う","え","お",
+      "か","き","く","け","こ",
+      "さ","し","す","せ","そ",
+      "た","ち","つ","て","と",
+      "な","に","ぬ","ね","の",
+      "は","ひ","ふ","へ","ほ",
+      "ま","み","む","め","も",
+      "や","ゆ","よ",
+      "ら","り","る","れ","ろ",
+      "わ","を","ん",
+      "が","ぎ","ぐ","げ","ご",
+      "ざ","じ","ず","ぜ","ぞ",
+      "だ","ぢ","づ","で","ど",
+      "ば","び","ぶ","べ","ぼ",
+      "ぱ","ぴ","ぷ","ぺ","ぽ",
+      "ゃ","ゅ","ょ","っ","ー"
+    ];
+    const KATAKANA_KEYS = [
+      "ア","イ","ウ","エ","オ",
+      "カ","キ","ク","ケ","コ",
+      "サ","シ","ス","セ","ソ",
+      "タ","チ","ツ","テ","ト",
+      "ナ","ニ","ヌ","ネ","ノ",
+      "ハ","ヒ","フ","ヘ","ホ",
+      "マ","ミ","ム","メ","モ",
+      "ヤ","ユ","ヨ",
+      "ラ","リ","ル","レ","ロ",
+      "ワ","ヲ","ン",
+      "ガ","ギ","グ","ゲ","ゴ",
+      "ザ","ジ","ズ","ゼ","ゾ",
+      "ダ","ヂ","ヅ","デ","ド",
+      "バ","ビ","ブ","ベ","ボ",
+      "パ","ピ","プ","ペ","ポ",
+      "ャ","ュ","ョ","ッ","ー"
+    ];
+
+    function setKeyboardMode(mode, level){
+      const state = ensureLevelState(level);
+      state.keyboardMode = mode;
+
+      const tabH = document.getElementById("tab-hira-" + level);
+      const tabK = document.getElementById("tab-kata-" + level);
+      if(tabH && tabK){
+        tabH.classList.toggle("active", mode === "hiragana");
+        tabK.classList.toggle("active", mode === "katakana");
+      }
+
+      renderKeyboard(level);
+    }
+
+    function renderKeyboard(level){
+      const state = ensureLevelState(level);
+      const container = document.getElementById("keyboardKeys-" + level);
+      if(!container) return;
+
+      const keys = state.keyboardMode === "hiragana" ? HIRAGANA_KEYS : KATAKANA_KEYS;
+      container.innerHTML = "";
+      keys.forEach(k=>{
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "kbd-key";
+        btn.textContent = k;
+        btn.addEventListener("click", () => insertKana(k, level));
+        container.appendChild(btn);
+      });
+    }
+
+    function insertKana(kana, level){
+      const input = document.getElementById("answerInput-" + level);
+      if(!input) return;
+      input.focus();
+      const start = input.selectionStart || 0;
+      const end = input.selectionEnd || 0;
+      const value = input.value || "";
+      const before = value.substring(0, start);
+      const after  = value.substring(end);
+      input.value = before + kana + after;
+      const newPos = start + kana.length;
+      input.selectionStart = newPos;
+      input.selectionEnd = newPos;
+    }
+
+    // ====== INIT ======
+    window.addEventListener("DOMContentLoaded", ()=>{
+      maxLevel = 1;
+      initLevel(1);        // crée Niveau 1 + Liste 1
+      renderHomeButtons(); // affiche Niveau 1 / Liste 1
+      showHome();
+    });
   </script>
 </body>
 </html>

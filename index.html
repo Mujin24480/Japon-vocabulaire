@@ -317,10 +317,15 @@
     </div>
   </div>
 
-  <!-- SCRIPT PRINCIPAL AVEC FIREBASE (API MODULAIRE) -->
+  <!-- ===================== JS + FIREBASE ===================== -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      get
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
     // ====== INITIALISATION FIREBASE ======
     const firebaseConfig = {
@@ -336,10 +341,9 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const rootRef = ref(db);
 
     function getListRef(level){
-      return ref(db, "lists/" + level);
+      return ref(db, `lists/${level}`);
     }
 
     // ====== MULTI-NIVEAUX ======
@@ -378,7 +382,7 @@
     }
 
     // boutons d’accueil
-    function renderHomeButtons(){
+    window.renderHomeButtons = function renderHomeButtons(){
       const container = document.getElementById("levelsButtons");
       container.innerHTML = "";
       for(let lvl=1; lvl<=maxLevel; lvl++){
@@ -405,7 +409,7 @@
       maxLevel++;
       initLevel(maxLevel);
       renderHomeButtons();
-    };
+    }
 
     function initLevel(level){
       ensureLevelState(level);
@@ -564,17 +568,17 @@
       return entries;
     }
 
-    window.applyRowCount = function(level){
+    window.applyRowCount = function applyRowCount(level){
       const select = document.getElementById("rowsSelect-" + level);
       const newCount = parseInt(select.value, 10) || 10;
       const existing = readEntriesFromDom(level);
       buildTableBody(level, newCount, existing);
       saveListToStorage(level);
-    };
+    }
 
     async function readStorageRaw(level){
       try{
-        const snap = await get(child(rootRef, "lists/" + level));
+        const snap = await get(getListRef(level));
         if(!snap.exists()) return null;
         return snap.val();
       }catch(e){
@@ -587,9 +591,9 @@
       const entries = readEntriesFromDom(level);
       const state = ensureLevelState(level);
       const payload = { rows: state.rowCount, entries };
-      set(getListRef(level), payload).catch(e=>{
-        console.warn("Erreur sauvegarde Firebase niveau", level, e);
-      });
+      set(getListRef(level), payload)
+        .then(() => console.log(`✅ Liste ${level} sauvegardée`))
+        .catch(e => console.warn(`Erreur sauvegarde Firebase liste ${level}`, e));
     }
 
     async function loadListFromStorage(level){
@@ -615,7 +619,7 @@
     }
 
     // ====== ENTRAÎNEMENT ======
-    window.startRandomWord = async function(level){
+    window.startRandomWord = async function startRandomWord(level){
       const list = await getNonEmptyEntries(level);
       const currentWordEl = document.getElementById("currentWord-" + level);
       const answerInput = document.getElementById("answerInput-" + level);
@@ -644,9 +648,9 @@
         resultArea.textContent = "";
         resultArea.className = "resultArea";
       }
-    };
+    }
 
-    window.checkAnswer = function(level){
+    window.checkAnswer = function checkAnswer(level){
       const resultArea = document.getElementById("resultArea-" + level);
       const answerInput = document.getElementById("answerInput-" + level);
       const state = ensureLevelState(level);
@@ -672,10 +676,10 @@
         resultArea.textContent = "✅ Correct : " + correct;
         resultArea.className = "resultArea good";
       }else{
-        resultArea.textContent = "❌ Faux. Ta réponse : \"" + user + "\" — Réponse correcte : \"" + correct + "\"";
+        resultArea.textContent = `❌ Faux. Ta réponse : "${user}" — Réponse correcte : "${correct}"`;
         resultArea.className = "resultArea bad";
       }
-    };
+    }
 
     // ====== CLAVIER JAPONAIS ======
     const HIRAGANA_KEYS = [
@@ -715,7 +719,7 @@
       "ャ","ュ","ョ","ッ","ー"
     ];
 
-    window.setKeyboardMode = function(mode, level){
+    window.setKeyboardMode = function setKeyboardMode(mode, level){
       const state = ensureLevelState(level);
       state.keyboardMode = mode;
 
@@ -727,7 +731,7 @@
       }
 
       renderKeyboard(level);
-    };
+    }
 
     function renderKeyboard(level){
       const state = ensureLevelState(level);
@@ -762,8 +766,6 @@
     }
 
     // ====== INIT ======
-    window.showHome = showHome; // exposé pour les boutons HTML
-
     window.addEventListener("DOMContentLoaded", ()=>{
       maxLevel = 1;
       initLevel(1);        // crée Niveau 1 + Liste 1
